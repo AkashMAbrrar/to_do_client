@@ -1,33 +1,55 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 const Home = () => {
+
+    const [itemText, setItemText] = useState('');
+    const [listItems, setListItems] = useState([]);
+
+    // add new item to database
+    const addItem = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post('http://localhost:5000/api/item', { item: itemText })
+            console.log(res);
+            setItemText('');
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // create function for fetch data from database
+    useEffect(() => {
+        const getItemsList = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/items')
+                setListItems(res.data)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        getItemsList()
+    }, []);
+
     return (
         <div className='py-10'>
             <div>
                 <h2 className='text-3xl text-blue-50 font-semibold py-16'>Add Your Daily Tasks</h2>
             </div>
-            <div className='app'>
-                <form className='py-10'>
-                    <input type="text" placeholder="Add Todon Item Here" class="input input-bordered input-info w-full max-w-xs" />
-                    <button className='btn btn-info'>Add</button>
+            <div>
+                <form className='py-8' onSubmit={e => addItem(e)}>
+                    <input type="text" placeholder="Add Todo Item Here" class="input input-bordered input-info w-full max-w-xs" onChange={e => { setItemText(e.target.value) }} value={itemText} />
+                    <button className='btn btn-info pl-2'>Add</button>
                 </form>
 
                 <div className='todo-listItems'>
-                    <div className='todo-item p-2'>
-                        <p className='item-content'>This is item 1</p>
-                        <button class="btn btn-xs btn-info">Update</button>
-                        <button class="btn btn-xs btn-accent">Edit</button>
-                    </div>
-                    <div className='todo-item p-2'>
-                        <p className='item-content'>This is item 2</p>
-                        <button class="btn btn-xs btn-info">Update</button>
-                        <button class="btn btn-xs btn-accent">Edit</button>
-                    </div>
-                    <div className='todo-item p-2'>
-                        <p className='item-content'>This is item 3</p>
-                        <button class="btn btn-xs btn-info">Update</button>
-                        <button class="btn btn-xs btn-accent">Edit</button>
-                    </div>
+                    {
+                        listItems.map(item => (
+                            <div className='todo-item p-2'>
+                                <p className='item-content'>{item.item}</p>
+                                <button class="btn btn-xs btn-info">Update</button>
+                                <button class="btn btn-xs btn-accent">Complete</button>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
 
