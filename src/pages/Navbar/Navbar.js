@@ -2,8 +2,8 @@ import React from 'react';
 
 const Navbar = () => {
     return (
-        <div>
-            <div class="navbar bg-secondary">
+        <div className='relative z-50'>
+            <div class="navbar bg-secondary fixed top-0 left-0 right-0">
                 <div class="navbar-start">
                     <div class="dropdown">
                         <label tabindex="0" class="btn btn-ghost lg:hidden">

@@ -4,12 +4,34 @@ const Home = () => {
     return (
         <div className='py-10'>
             <div>
-                <h2 className='text-3xl text-blue-50 font-semibold'>Add Your Daily Tasks</h2>
+                <h2 className='text-3xl text-blue-50 font-semibold py-16'>Add Your Daily Tasks</h2>
             </div>
-            <form className='py-10'>
-                <input type="text" placeholder="Add Todon Item Here" class="input input-bordered input-info w-full max-w-xs" />
-            </form>
+            <div className='app'>
+                <form className='py-10'>
+                    <input type="text" placeholder="Add Todon Item Here" class="input input-bordered input-info w-full max-w-xs" />
+                    <button className='btn btn-info'>Add</button>
+                </form>
 
+                <div className='todo-listItems'>
+                    <div className='todo-item p-2'>
+                        <p className='item-content'>This is item 1</p>
+                        <button class="btn btn-xs btn-info">Update</button>
+                        <button class="btn btn-xs btn-accent">Edit</button>
+                    </div>
+                    <div className='todo-item p-2'>
+                        <p className='item-content'>This is item 2</p>
+                        <button class="btn btn-xs btn-info">Update</button>
+                        <button class="btn btn-xs btn-accent">Edit</button>
+                    </div>
+                    <div className='todo-item p-2'>
+                        <p className='item-content'>This is item 3</p>
+                        <button class="btn btn-xs btn-info">Update</button>
+                        <button class="btn btn-xs btn-accent">Edit</button>
+                    </div>
+                </div>
+            </div>
+
+            {/* This is a simple section for design */}
             <div className='px-10'>
                 <div class="hero min-h-screen bg-base-200">
                     <div class="hero-content flex-col lg:flex-row">
