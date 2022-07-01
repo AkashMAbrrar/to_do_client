@@ -10,7 +10,7 @@ const Home = () => {
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:5000/api/item', { item: itemText })
-            console.log(res);
+            setListItems(prev => [...prev, res.data]);
             setItemText('');
         } catch (err) {
             console.log(err)
@@ -21,13 +21,32 @@ const Home = () => {
         const getItemsList = async () => {
             try {
                 const res = await axios.get('http://localhost:5000/api/items')
-                setListItems(res.data)
+                setListItems(res.data);
+                console.log('render')
             } catch (err) {
                 console.log(err)
             }
         }
         getItemsList()
     }, []);
+
+    // delete oparation (complete task)
+    const deleteItem = async (id) => {
+        try {
+            const res = await axios.delete(`http://localhost:5000/api/item/${id}`)
+            const newListItems = listItems.filter(item => item._id !== id);
+            setListItems(newListItems)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // for update oparatons 
+    const renderUpdate = () => {
+        <form className='update-form'>
+            <input type="text" placeholder="New Item" class="input input-bordered input-info w-full max-w-xs" />
+            <button className='btn btn-xs btn-info' type='submit'>Edit</button>
+        </form>
+    }
 
     return (
         <div className='py-10'>
@@ -46,7 +65,7 @@ const Home = () => {
                             <div className='todo-item p-2'>
                                 <p className='item-content'>{item.item}</p>
                                 <button class="btn btn-xs btn-info">Update</button>
-                                <button class="btn btn-xs btn-accent">Complete</button>
+                                <button class="btn btn-xs btn-accent" onClick={() => { deleteItem(item._id) }}>Complete</button>
                             </div>
                         ))
                     }
